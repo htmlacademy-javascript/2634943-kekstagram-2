@@ -1,5 +1,6 @@
 import { sendFormData } from './api.js';
 import { resetEffects } from './effects/effects.js';
+import { Messages, showMessage } from './popups.js';
 import { resetScale } from './scale.js';
 import { isValid, resetValidation } from './validation.js';
 
@@ -27,9 +28,13 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagInput ||
   document.activeElement === commentInput;
 
+const canCloseModal = () => !document.querySelector(`.${Messages.ERROR}`);
+
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
-    evt.preventDefault();
+  evt.preventDefault();
+  if (evt.key === 'Escape'
+    && !isTextFieldFocused()
+    && canCloseModal()) {
     closeUploadForm();
   }
 };
@@ -57,62 +62,6 @@ const onCloseButtonClick = (evt) => {
   closeUploadForm();
 };
 
-const showSuccessMessage = () => {
-  const successTemplate = document.querySelector('#success').content.querySelector('.success');
-  const successElement = successTemplate.cloneNode(true);
-  document.body.append(successElement);
-
-  function onSuccessClose() {
-    successElement.remove();
-    document.removeEventListener('click', onSuccessDocumentClick);
-    document.removeEventListener('keydown', onSuccessDocumentKeydown);
-  }
-
-  function onSuccessDocumentKeydown(evt) {
-    if (evt.key === 'Escape') {
-      onSuccessClose();
-    }
-  }
-
-  function onSuccessDocumentClick(evt) {
-    if (!successElement.contains(evt.target)) {
-      onSuccessClose();
-    }
-  }
-
-  successElement.querySelector('.success__button').addEventListener('click', onSuccessClose);
-  document.addEventListener('click', onSuccessDocumentClick);
-  document.addEventListener('keydown', onSuccessDocumentKeydown);
-};
-
-const showErrorMessage = () => {
-  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  const errorElement = errorTemplate.cloneNode(true);
-  document.body.append(errorElement);
-
-  function onErrorClose() {
-    errorElement.remove();
-    document.removeEventListener('click', onErrorDocumentClick);
-    document.removeEventListener('keydown', onErrorDocumentKeydown);
-  }
-
-  function onErrorDocumentKeydown(evt) {
-    if (evt.key === 'Escape') {
-      onErrorClose();
-    }
-  }
-
-  function onErrorDocumentClick(evt) {
-    if (!errorElement.contains(evt.target)) {
-      onErrorClose();
-    }
-  }
-
-  errorElement.querySelector('.error__button').addEventListener('click', onErrorClose);
-  document.addEventListener('click', onErrorDocumentClick);
-  document.addEventListener('keydown', onErrorDocumentKeydown);
-};
-
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
@@ -127,10 +76,10 @@ form.addEventListener('submit', (evt) => {
   sendFormData(formData)
     .then(() => {
       closeUploadForm();
-      showSuccessMessage();
+      showMessage(Messages.SUCCESS);
     })
     .catch(() => {
-      showErrorMessage();
+      showMessage(Messages.ERROR);
     })
     .finally(() => {
       submitButton.disabled = false;

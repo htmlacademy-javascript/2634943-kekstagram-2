@@ -1,3 +1,5 @@
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -9,3 +11,12 @@ const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
 
 export { getRandomInteger, getRandomArrayElement };
+
+export const showDataError = () => {
+  const dataErrorElement = dataErrorTemplate.cloneNode(true);
+  document.body.append(dataErrorElement);
+
+  setTimeout(() => {
+    dataErrorElement.remove();
+  }, 5000);
+};
