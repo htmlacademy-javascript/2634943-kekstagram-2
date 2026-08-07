@@ -32,3 +32,8 @@ export const renderCards = (photos) => {
 
   picturesContainerElement.appendChild(picturesFragment);
 };
+
+export const clearCards = () => {
+  const pictures = picturesContainerElement.querySelectorAll('.picture');
+  pictures.forEach((picture) => picture.remove());
+};
