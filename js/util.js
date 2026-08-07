@@ -10,7 +10,7 @@ const getRandomInteger = (a, b) => {
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
 
-export { getRandomInteger, getRandomArrayElement };
+export { getRandomInteger, getRandomArrayElement, debounce, throttle };
 
 export const showDataError = () => {
   const dataErrorElement = dataErrorTemplate.cloneNode(true);
@@ -20,3 +20,23 @@ export const showDataError = () => {
     dataErrorElement.remove();
   }, 5000);
 };
+
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+function throttle(callback, delayBetweenFrames) {
+  let lastTime = 0;
+  return (...rest) => {
+    const now = new Date();
+
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
