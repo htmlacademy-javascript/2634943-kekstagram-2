@@ -30,10 +30,10 @@ const isTextFieldFocused = () =>
 const canCloseModal = () => !document.querySelector(`.${Messages.ERROR}`);
 
 const onDocumentKeydown = (evt) => {
-  evt.preventDefault();
   if (evt.key === 'Escape'
     && !isTextFieldFocused()
     && canCloseModal()) {
+    evt.preventDefault();
     closeUploadForm();
   }
 };
