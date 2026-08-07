@@ -2,6 +2,7 @@ import { sendFormData } from './api.js';
 import { resetEffects } from './effects/effects.js';
 import { Messages, showMessage } from './popups.js';
 import { resetScale } from './scale.js';
+import { setPreviewImage, resetPreviewImage } from './preview.js';
 import { isValid, resetValidation } from './validation.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -13,12 +14,10 @@ const submitButton = form.querySelector('.img-upload__submit');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 
-const previewImage = form.querySelector('.img-upload__preview img');
-const effectsPreview = form.querySelector('.effects__preview');
-
 const resetForm = () => {
   form.reset();
   resetScale();
+  resetPreviewImage();
 
   resetEffects();
   resetValidation();
@@ -54,6 +53,10 @@ const closeUploadForm = () => {
 };
 
 const onUploadInputChange = () => {
+  const file = uploadInput.files[0];
+  if (file) {
+    setPreviewImage(file);
+  }
   openUploadForm();
 };
 
