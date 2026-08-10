@@ -1,3 +1,5 @@
+const COMMENTS_STEP = 5;
+
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureImage = bigPictureElement.querySelector('.big-picture__img img');
 const likesCountElement = bigPictureElement.querySelector('.likes-count');
@@ -8,8 +10,6 @@ const commentTotalCountElement = bigPictureElement.querySelector('.social__comme
 const commentCountBlockElement = bigPictureElement.querySelector('.social__comment-count');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const closeButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
-
-const COMMENTS_STEP = 5;
 
 let currentComments = [];
 let shownCommentsCount = 0;
@@ -78,13 +78,6 @@ const renderBigPicture = (photo) => {
   renderMoreComments();
 };
 
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    closeBigPicture();
-  }
-};
-
 const openBigPicture = (photo) => {
   renderBigPicture(photo);
   bigPictureElement.classList.remove('hidden');
@@ -105,5 +98,12 @@ closeButtonElement.addEventListener('click', () => {
 commentsLoaderElement.addEventListener('click', () => {
   renderMoreComments();
 });
+
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+}
 
 export { openBigPicture };

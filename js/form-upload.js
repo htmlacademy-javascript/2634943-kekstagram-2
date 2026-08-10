@@ -30,10 +30,10 @@ const isTextFieldFocused = () =>
 const canCloseModal = () => !document.querySelector(`.${Messages.ERROR}`);
 
 const onDocumentKeydown = (evt) => {
-  evt.preventDefault();
   if (evt.key === 'Escape'
     && !isTextFieldFocused()
     && canCloseModal()) {
+    evt.preventDefault();
     closeUploadForm();
   }
 };
@@ -45,12 +45,12 @@ const openUploadForm = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const closeUploadForm = () => {
+function closeUploadForm() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   resetForm();
-};
+}
 
 const onUploadInputChange = () => {
   const file = uploadInput.files[0];

@@ -1,5 +1,4 @@
 const MAX_HASHTAGS = 5;
-const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 
 const form = document.querySelector('.img-upload__form');
@@ -26,9 +25,9 @@ const validateHashtags = (value) => {
   const uniqueHashtags = new Set();
 
   return hashtags.every((hashtag) => {
-    const isValid = /^#[a-zа-яё0-9]{1,19}$/i.test(hashtag);
+    const isValidHashtag = /^#[a-zа-яё0-9]{1,19}$/i.test(hashtag);
 
-    if (!isValid || uniqueHashtags.has(hashtag)) {
+    if (!isValidHashtag || uniqueHashtags.has(hashtag)) {
       return false;
     }
 

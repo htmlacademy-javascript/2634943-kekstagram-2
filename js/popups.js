@@ -1,10 +1,10 @@
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
 export const Messages = {
   SUCCESS: 'success',
   ERROR: 'error'
 };
+
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const templates = {
   [Messages.SUCCESS]: successTemplate,
@@ -16,8 +16,8 @@ export const showMessage = (type) => {
   const element = templates[type].cloneNode(true);
   document.body.append(element);
 
-const onButtonClick = () => {
-    closeMessage()
+  const onButtonClick = () => {
+    closeMessage();
   };
 
   const onDocumentKeydown = (evt) => {
@@ -26,8 +26,7 @@ const onButtonClick = () => {
     }
   };
 
-  const  onOverlayClick = (evt) => {
-    console.log(evt.target)
+  const onOverlayClick = (evt) => {
     if (evt.target.classList.contains(type)) {
       closeMessage();
     }
