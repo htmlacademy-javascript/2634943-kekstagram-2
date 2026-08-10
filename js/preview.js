@@ -1,8 +1,8 @@
+const DEFAULT_IMAGE_URL = 'img/upload-default-image.jpg';
+
 const form = document.querySelector('.img-upload__form');
 const previewImage = form.querySelector('.img-upload__preview img');
 const effectsPreviews = form.querySelectorAll('.effects__preview');
-
-const DEFAULT_IMAGE_URL = 'img/upload-default-image.jpg';
 
 let currentPreviewUrl = null;
 

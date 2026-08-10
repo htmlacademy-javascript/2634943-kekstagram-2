@@ -3,6 +3,11 @@ import { openBigPicture } from './render-big-picture.js';
 const picturesContainerElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
+const clearCards = () => {
+  const pictures = picturesContainerElement.querySelectorAll('.picture');
+  pictures.forEach((picture) => picture.remove());
+};
+
 const createPictureElement = (photo) => {
   const newPictureElement = pictureTemplate.cloneNode(true);
 
@@ -23,6 +28,7 @@ const createPictureElement = (photo) => {
 };
 
 export const renderCards = (photos) => {
+  clearCards();
   const picturesFragment = document.createDocumentFragment();
 
   photos.forEach((photo) => {
@@ -33,7 +39,4 @@ export const renderCards = (photos) => {
   picturesContainerElement.appendChild(picturesFragment);
 };
 
-export const clearCards = () => {
-  const pictures = picturesContainerElement.querySelectorAll('.picture');
-  pictures.forEach((picture) => picture.remove());
-};
+

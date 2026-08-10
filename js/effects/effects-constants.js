@@ -5,7 +5,15 @@ export const INIT_SLIDER = {
   },
   start: 1,
   step: 0.1,
-  connect: 'lower'
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return parseFloat(value);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
 };
 
 export const DEFAULT_EFFECT = 'none';

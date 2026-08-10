@@ -1,8 +1,11 @@
-import { renderCards, clearCards } from './render-cards.js';
+import { renderCards } from './render-cards.js';
 import { debounce } from './util.js';
 
+const AMOUNT_RANDOM_PHOTOS = 10;
+const RANDOM_FACTOR = 0.5;
+
 const filtersElement = document.querySelector('.img-filters');
-const filterButtons = document.querySelectorAll('.img-filters__button');
+const filterButtons = filtersElement.querySelectorAll('.img-filters__button');
 
 let currentFilter = 'default';
 let allPhotos = [];
@@ -14,15 +17,13 @@ const showFilters = () => {
 const filterDefault = (photos) => photos;
 
 const filterRandom = (photos) => {
-  const shuffled = [...photos].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 10);
+  const shuffled = [...photos].sort(() => Math.random() - RANDOM_FACTOR);
+  return shuffled.slice(0, AMOUNT_RANDOM_PHOTOS);
 };
 
 const filterDiscussed = (photos) => [...photos].sort((a, b) => b.comments.length - a.comments.length);
 
 const applyFilter = (filterType, photos) => {
-  clearCards();
-
   let filteredPhotos;
   switch (filterType) {
     case 'random':
@@ -40,7 +41,7 @@ const applyFilter = (filterType, photos) => {
 
 const debouncedApplyFilter = debounce((filterType, photos) => {
   applyFilter(filterType, photos);
-}, 500);
+});
 
 const onFilterClick = (evt) => {
   const filterType = evt.target.id.replace('filter-', '');
@@ -49,9 +50,7 @@ const onFilterClick = (evt) => {
     return;
   }
 
-  filterButtons.forEach((button) => {
-    button.classList.remove('img-filters__button--active');
-  });
+  filtersElement.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
   evt.target.classList.add('img-filters__button--active');
 
   currentFilter = filterType;
@@ -59,7 +58,7 @@ const onFilterClick = (evt) => {
 };
 
 const initFilters = (photos) => {
-  allPhotos = photos;
+  allPhotos = [...photos];
   showFilters();
 
   filterButtons.forEach((button) => {

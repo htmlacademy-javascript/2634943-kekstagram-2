@@ -17,67 +17,63 @@ const slider = sliderElement.noUiSlider;
 sliderContainer.classList.add('hidden');
 
 const updateSlider = () => {
-    const {min, max, start, step } = EFFECTS[currentEffect]
-    slider.updateOptions({
-        range: {
-            min,
-            max,
-        },
-        start,
-        step,
-    });
+  const { min, max, start, step } = EFFECTS[currentEffect];
+  slider.updateOptions({
+    range: {
+      min,
+      max,
+    },
+    start,
+    step,
+  });
 };
 
 const removeEffectClasses = () => {
-    Object.keys(EFFECTS)
-        .filter((effect) => effect !== 'none')
-        .forEach((effect) => {
-            effectsPreview.classList.remove(`effects__preview--${effect}`);
-        });
+  Object.keys(EFFECTS)
+    .filter((effect) => effect !== 'none')
+    .forEach((effect) => {
+      effectsPreview.classList.remove(`effects__preview--${effect}`);
+    });
 };
 
 const applyEffect = (effect) => {
-    currentEffect = effect;
+  currentEffect = effect;
 
-    if (effect === 'none') {
-        sliderContainer.classList.add('hidden');
-        previewImage.style.filter = '';
-        sliderValue.value = '';
-        return;
-    }
+  if (effect === 'none') {
+    sliderContainer.classList.add('hidden');
+    previewImage.style.filter = '';
+    sliderValue.value = '';
+    return;
+  }
 
-    sliderContainer.classList.remove('hidden');
+  sliderContainer.classList.remove('hidden');
 
-    removeEffectClasses();
-    effectsPreview.classList.add(`effects__preview--${effect}`);
+  removeEffectClasses();
+  effectsPreview.classList.add(`effects__preview--${effect}`);
 
-    updateSlider();
-    sliderValue.value = slider.get();
-    previewImage.style.filter = EFFECTS[effect].filter(sliderValue.value);
+  updateSlider();
+  sliderValue.value = slider.get();
+  previewImage.style.filter = EFFECTS[effect].filter(sliderValue.value);
 };
 
 effectsContainer.addEventListener('change', (evt) => {
-    applyEffect(evt.target.value);
+  applyEffect(evt.target.value);
 });
 
 slider.on('update', () => {
-    const currentEffect = form.querySelector(
-        '.effects__radio:checked'
-    ).value;
+  if (currentEffect === 'none') {
+    return;
+  }
 
-    if (currentEffect === 'none') {
-        return;
-    }
-
-    const value = Number(slider.get());
-    previewImage.style.filter = EFFECTS[currentEffect].filter(value);
-    sliderValue.value = value;
+  const value = Number(slider.get());
+  previewImage.style.filter = EFFECTS[currentEffect].filter(value);
+  sliderValue.value = value;
 });
 
 export const resetEffects = () => {
-    removeEffectClasses();
-    previewImage.style.filter = '';
-    sliderContainer.classList.add('hidden');
-    slider.set(EFFECTS.none.start);
-    sliderValue.value = '';
-}
+  removeEffectClasses();
+  previewImage.style.filter = '';
+  sliderContainer.classList.add('hidden');
+  slider.set(EFFECTS.none.start);
+  sliderValue.value = '';
+};
